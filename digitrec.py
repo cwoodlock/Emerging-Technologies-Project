@@ -51,3 +51,4 @@ outputs = encoder.transform(train_lbl)
 for i in range(10):
     print(i, encoder.transform([i]))
 
+model.fit(inputs, outputs, epochs=50, batch_size=100)
