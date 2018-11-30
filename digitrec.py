@@ -19,8 +19,8 @@ model.add(kr.layers.Dense(units=1000, activation='relu', input_dim=784))
 model.add(kr.layers.Dense(units=10, activation='softmax'))
 
 # Build the graph.
-#optimiser times admam=771 sgd=515 adadelta=851
-model.compile(loss='categorical_crossentropy', optimizer='sdg', metrics=['accuracy'])
+#optimiser times admam=771 sgd=515 adadelta=851 https://www.dlology.com/blog/quick-notes-on-how-to-choose-optimizer-in-keras/
+model.compile(loss='categorical_crossentropy', optimizer='sgd', metrics=['accuracy'])
 
 # Open the gzipped files and read as bytes.
 #Adapted from : https://docs.python.org/2/library/gzip.html
@@ -52,4 +52,16 @@ outputs = encoder.transform(train_lbl)
 for i in range(10):
     print(i, encoder.transform([i]))
 
+#start the training set up the 
 model.fit(inputs, outputs, epochs=50, batch_size=100)
+
+with gzip.open('data/t10k-images-idx3-ubyte.gz', 'rb') as f:
+    test_img = f.read()
+
+with gzip.open('data/t10k-labels-idx1-ubyte.gz', 'rb') as f:
+    test_lbl = f.read()
+    
+test_img = ~np.array(list(test_img[16:])).reshape(10000, 784).astype(np.uint8) / 255.0
+test_lbl =  np.array(list(test_lbl[ 8:])).astype(np.uint8)
+
+(encoder.inverse_transform(model.predict(test_img)) == test_lbl).sum()
