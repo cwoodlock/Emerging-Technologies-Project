@@ -19,7 +19,8 @@ model.add(kr.layers.Dense(units=1000, activation='relu', input_dim=784))
 model.add(kr.layers.Dense(units=10, activation='softmax'))
 
 # Build the graph.
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+#optimiser times admam=771 sgd=515 adadelta=851
+model.compile(loss='categorical_crossentropy', optimizer='sdg', metrics=['accuracy'])
 
 # Open the gzipped files and read as bytes.
 #Adapted from : https://docs.python.org/2/library/gzip.html
